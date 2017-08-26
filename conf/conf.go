@@ -20,6 +20,9 @@ type tomlFile struct {
 
 	ServerUrl     string `toml:"ServerUrl"`
 	ServerPort     string `toml:"ServerPort"`
+
+	N     int `toml:"N"`
+	C     int `toml:"C"`
 }
 
 var App *tomlFile
