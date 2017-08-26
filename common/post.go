@@ -8,19 +8,19 @@ import (
 )
 
 //参数为url，参数
-func HttpPost(url,param string) (string, error) {
+func HttpPost(url,param string) ([]byte, error) {
 	resp, err := http.Post(conf.App.ServerUrl+url,
 		"application/x-www-form-urlencoded",
 		strings.NewReader(param))
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return string(body), nil
+	return body, nil
 }

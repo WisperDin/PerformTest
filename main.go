@@ -1,11 +1,22 @@
 package main
 
 import (
-	."./module"
+	."./routine"
 	"./conf"
+	//"fmt"
+	"fmt"
 )
+
 
 func main(){
 	conf.Init("./test.toml")
-	Login("59991979-2","123456","admin","web")
+	for i:=0;i<1000;i++  {
+		go func() {
+			for  {
+				EleRoutine(1,i)
+			}
+		}()
+		fmt.Println(i)
+	}
+
 }
