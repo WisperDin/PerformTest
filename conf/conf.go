@@ -10,19 +10,19 @@ import (
 */
 
 type tomlFile struct {
-	AppEnv string `toml:"appEnv"`
-	DBDriver         string `toml:"DBDriver"`
-	DBHost         string `toml:"DBHost"`
-	DBPort         string `toml:"DBPort"`
-	DBUser         string `toml:"DBUser"`
-	DBPassword     string `toml:"DBPassword"`
-	DBName         string `toml:"DBName"`
+	AppEnv     string `toml:"appEnv"`
+	DBDriver   string `toml:"DBDriver"`
+	DBHost     string `toml:"DBHost"`
+	DBPort     string `toml:"DBPort"`
+	DBUser     string `toml:"DBUser"`
+	DBPassword string `toml:"DBPassword"`
+	DBName     string `toml:"DBName"`
 
-	ServerUrl     string `toml:"ServerUrl"`
-	ServerPort     string `toml:"ServerPort"`
+	ServerUrl  string `toml:"ServerUrl"`
+	ServerPort string `toml:"ServerPort"`
 
-	N     int `toml:"N"`
-	C     int `toml:"C"`
+	N int `toml:"N"`
+	C int `toml:"C"`
 }
 
 var App *tomlFile

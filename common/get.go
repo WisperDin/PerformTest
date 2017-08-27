@@ -1,14 +1,14 @@
 package common
 
 import (
+	"../conf"
 	"io/ioutil"
 	"net/http"
-	"../conf"
 )
 
 //参数为url，返回回应的body
 func HttpGet(url string) ([]byte, error) {
-	resp, err := http.Get(conf.App.ServerUrl+url)
+	resp, err := http.Get(conf.App.ServerUrl + url)
 	if err != nil {
 		return nil, err
 	}

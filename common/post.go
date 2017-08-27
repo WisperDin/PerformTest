@@ -1,14 +1,14 @@
 package common
 
 import (
-	"strings"
+	"../conf"
 	"io/ioutil"
 	"net/http"
-	"../conf"
+	"strings"
 )
 
 //参数为url，参数
-func HttpPost(url,param string) ([]byte, error) {
+func HttpPost(url, param string) ([]byte, error) {
 	resp, err := http.Post(conf.App.ServerUrl+url,
 		"application/x-www-form-urlencoded",
 		strings.NewReader(param))
