@@ -7,10 +7,7 @@ import (
 	"fmt"
 	"log"
 )
-
-
-func main(){
-	conf.Init("./test.toml")
+func run(){
 	count:=0
 	for i:=0;i<conf.App.C;i++  {
 		go func(n int) {
@@ -22,9 +19,13 @@ func main(){
 		}(i)
 	}
 	log.Println("finish...")
-	//线程已全部开启,发出开始信号
-	//close(sign)
 	select {
 
 	}
+}
+
+func main(){
+	conf.Init("./test.toml")
+	EleRoutine(1,1)
+	//run()
 }
