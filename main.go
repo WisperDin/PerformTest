@@ -3,12 +3,13 @@ package main
 import (
 	"./conf"
 	. "./routine"
-
-	"fmt"
-	"log"
+	/*
+			"fmt"
+			"log"*/
+	"./report"
 )
 
-func run() {
+/*func run() {
 	count := 0
 	for i := 0; i < conf.App.C; i++ {
 		go func(n int) {
@@ -21,10 +22,19 @@ func run() {
 	}
 	log.Println("finish...")
 	select {}
-}
+}*/
 
 func main() {
 	conf.Init("./test.toml")
-	EleRoutine(1, 1)
+	//EleRoutine(1, 1)
 	//run()
+	rep := report.Reporter{}
+	rep.UserNum = 1000
+	report.RoutineChan = make(chan report.RoutineResult)
+	go report.ListenRoutineResult(&rep, 5)
+
+	go EleRoutine(1, 1)
+	for {
+
+	}
 }

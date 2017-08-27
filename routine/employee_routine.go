@@ -1,10 +1,11 @@
 package routine
 
 import (
-	"../module"
+	."../module"
 	"fmt"
 	"log"
 	"strconv"
+	"../report"
 )
 
 //医护人员 	加载审核通过的机构列表->登录->注销
@@ -15,7 +16,7 @@ func elePrepare() {
 }
 
 //找到对应名字的机构id
-func FindOrgId(fb *module.R) (oid string) {
+func FindOrgId(fb *R) (oid string) {
 	var oidRaw float64
 	oidRaw = 0
 	for _, item := range fb.Data.(map[string]interface{})["organizations"].([]interface{}) {
@@ -31,31 +32,37 @@ func FindOrgId(fb *module.R) (oid string) {
 }
 
 func EleRoutine(mode int, rid int) {
-	fb1 := module.ReadOrgList(1)
+	routineRes:=report.RoutineResult{}
+	routineRes.IsFinish=false
+	fb1 := ReadOrgList(1)
 	if mode == CORRECT {
 		if fb1.Code != SUCCESS_CODE {
-			log.Fatalln(fmt.Sprintf("fail in %d", rid))
+			routineRes.FailPos=0
+			log.Fatalln(fmt.Sprintf("fail in rid=%d pos=ReadOrgList", rid))
 		}
 	}
 	//找到对应名字的机构id
 	oid := FindOrgId(fb1)
 	if oid == "" {
-		log.Fatalln(fmt.Sprintf("fail in %d", rid))
+		log.Fatalln(fmt.Sprintf("fail in %d ", rid))
 	}
 
-	fb2 := module.Login("100000000", "123456", "employee", "web", oid)
+	fb2 := Login("100000000", "123456", "employee", "web", oid)
 	if mode == CORRECT {
 		if fb1.Code != SUCCESS_CODE {
-			log.Println(fmt.Sprintf("fail in %d", rid))
+			routineRes.FailPos=1
+			log.Fatalln(fmt.Sprintf("fail in rid=%d pos=Login", rid))
 		}
 	}
 	userToken := fb2.Data.(map[string]interface{})["token"].(string)
 
-	module.Logout("100000000", "employee", "web", userToken)
+	Logout("100000000", "employee", "web", userToken)
 	if mode == CORRECT {
 		if fb1.Code != SUCCESS_CODE {
-			log.Println(fmt.Sprintf("fail in %d", rid))
+			routineRes.FailPos=2
+			log.Fatalln(fmt.Sprintf("fail in rid=%d pos=Logout", rid))
 		}
 	}
-
+	routineRes.IsFinish=true
+	report.RoutineChan<-routineRes
 }
